@@ -2,599 +2,583 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Panel Aiken</title>
+    <meta charset="UTF-8">
+    <title>Panel Aiken</title>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #eef2f5;
-      padding: 20px;
-    }
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef2f5;
+            padding: 20px;
+        }
 
-    .container {
-      background: #fff;
-      max-width: 1100px;
-      margin: auto;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 12px rgba(0, 0, 0, .1);
-    }
+        .container {
+            background: #fff;
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, .1);
+        }
 
-    h2,
-    h3 {
-      text-align: center;
-    }
+        h2,
+        h3 {
+            text-align: center;
+        }
 
-    .panel {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+        .panel {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    .panel button {
-      background: #004aad;
-      margin: 6px;
-    }
+        .panel button {
+            background: #004aad;
+            margin: 6px;
+        }
 
-    .panel button:hover {
-      background: #0066ff;
-    }
+        .panel button:hover {
+            background: #0066ff;
+        }
 
-    .section {
-      border: 1px solid #ccc;
-      padding: 15px;
-      margin-bottom: 20px;
-      border-radius: 6px;
-    }
+        .section {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
 
-    textarea {
-      width: 100%;
-      height: 180px;
-      margin-top: 10px;
-    }
+        textarea {
+            width: 100%;
+            height: 180px;
+            margin-top: 10px;
+        }
 
-    button {
-      margin: 6px;
-      padding: 10px 18px;
-      background: rgb(0, 101, 0);
-      border: none;
-      color: white;
-      cursor: pointer;
-      border-radius: 5px;
-    }
+        button {
+            margin: 6px;
+            padding: 10px 18px;
+            background: rgb(0, 101, 0);
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
 
-    button:hover {
-      background: rgb(0, 207, 0);
-    }
+        button:hover {
+            background: rgb(0, 207, 0);
+        }
 
-    .reset {
-      background: rgb(255, 89, 89);
-    }
+        .reset {
+            background: rgb(255, 89, 89);
+        }
 
-    .reset:hover {
-      background: rgb(255, 0, 0);
-    }
+        .reset:hover {
+            background: rgb(255, 0, 0);
+        }
 
-    .stats {
-      font-weight: bold;
-      margin-top: 8px;
-    }
+        .stats {
+            font-weight: bold;
+            margin-top: 8px;
+        }
 
-    .modulo {
-      display: none;
-    }
-  </style>
+        .modulo {
+            display: none;
+        }
+
+        .dropzone {
+            border: 2px dashed #004aad;
+            padding: 20px;
+            text-align: center;
+            color: #004aad;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            background: #f4f8ff;
+        }
+
+        .dropzone:hover {
+            background: #e6f0ff;
+        }
+    </style>
 </head>
 
 <body>
 
-  <div class="container">
-    <h2>📚 Panel Aiken Unificado</h2>
+    <div class="container">
+        <h2>📚 Panel Aiken Unificado</h2>
 
-    <!-- PANEL -->
-    <div class="panel">
-      <button onclick="mostrar('pf')">📘 Parcial / Final</button>
-      <button onclick="mostrar('comp')">🔍 Comparador</button>
-      <button onclick="mostrar('multi')">📂 Multi-Archivos</button>
-    </div>
-    <!-- ================= PARCIAL / FINAL ================= -->
-    <div id="pf" class="modulo">
-
-      <h3>📘 Parcial / Final</h3>
-
-      <div class="section">
-        <h3>📘 Examen Parcial</h3>
-        <input type="file" id="pf_parcial" accept=".txt">
-        <br>
-        <button onclick="pfProcesar('parcial')">⚙ Procesar Parcial</button>
-        <button onclick="descargarTexto(pf_data.parcial,'EP.txt')">⬇ Descargar Parcial</button>
-
-        <textarea id="pf_out_parcial"></textarea>
-        <div class="stats" id="pf_stats_parcial"></div>
-
-        <h4>🧩 Duplicados Parcial</h4>
-        <textarea id="dup_pf_parcial" readonly></textarea>
-        <p id="cnt_pf_parcial"></p>
-
-      </div>
-
-      <div class="section">
-        <h3>📕 Examen Final</h3>
-        <input type="file" id="pf_final" accept=".txt">
-        <br>
-        <button onclick="pfProcesar('final')">⚙ Procesar Final</button>
-        <button onclick="descargarTexto(pf_data.final,'EF.txt')">⬇ Descargar Final</button>
-
-        <textarea id="pf_out_final"></textarea>
-        <div class="stats" id="pf_stats_final"></div>
-
-        <h4>🧩 Duplicados Final</h4>
-        <textarea id="dup_pf_final" readonly></textarea>
-        <p id="cnt_pf_final"></p>
-
-      </div>
-
-      <div class="section">
-        <button onclick="pfUnir()">🔥 Unir y Depurar</button>
-        <button onclick="descargarTexto(pf_data.union,'RECUPERACIÓN.txt')">⬇ Descargar Unión</button>
-
-        <textarea id="pf_out_union"></textarea>
-        <div class="stats" id="pf_stats_union"></div>
-
-        <h4>🧩 Duplicados Unión</h4>
-        <textarea id="dup_pf_union" readonly></textarea>
-        <p id="cnt_pf_union"></p>
-
-      </div>
-
-      <button class="reset" onclick="pfLimpiar()">🧹 Limpiar</button>
-    </div>
-
-
-    <!-- ================= COMPARADOR ================= -->
-    <div id="comp" class="modulo">
-
-      <h3>🔍 Comparador Aiken</h3>
-
-      <div class="section">
-        <h3>📘 Archivo Principal (Referencia)</h3>
-        <input type="file" id="c_principal">
-        <textarea id="c_txt_principal"></textarea>
-      </div>
-
-      <div class="section">
-        <h3>📄 Archivo a Comparar</h3>
-        <input type="file" id="c_comparar">
-        <textarea id="c_txt_comparar"></textarea>
-      </div>
-
-      <div class="section">
-        <button onclick="comparar()">🔍 Comparar</button>
-        <button onclick="descargarTexto(comp_resultado,'no_encontradas.txt')">⬇ Descargar Resultado</button>
-        <textarea id="c_resultado"></textarea>
-        <div class="stats" id="c_stats"></div>
-      </div>
-
-      <button class="reset" onclick="compLimpiar()">Limpiar</button>
-    </div>
-
-    <!-- ================= MULTI ARCHIVOS ================= -->
-    <div id="multi" class="modulo">
-
-      <h3>📂 Multi-Archivos</h3>
-
-      <div class="section">
-        <h4>📥 Arrastra aquí los archivos TXT</h4>
-        <div id="dropZone" style="border:2px dashed #666;padding:30px;text-align:center;
-           background:#f9f9f9;border-radius:8px;cursor:pointer;">
-          Arrastra uno o varios archivos .txt aquí<br>
-          o haz clic para seleccionar
+        <!-- PANEL -->
+        <div class="panel">
+            <button onclick="mostrar('pf')">📘 Parcial / Final</button>
+            <button onclick="mostrar('comp')">🔍 Comparador</button>
+            <button onclick="mostrar('multi')">📂 Multi-Archivos</button>
         </div>
-        <input type="file" id="m_files" multiple accept=".txt" style="display:none">
-        <p id="m_info"></p>
-      </div>
+        <!-- ================= PARCIAL / FINAL ================= -->
+        <div id="pf" class="modulo">
 
-      <div class="section">
-        <button onclick="procesarMulti()">⚙ Procesar</button>
-        <button onclick="descargarTexto(m_resultado,'aiken_unificado.txt')">⬇ Descargar Resultado</button>
-        <textarea id="m_out"></textarea>
-        <div class="stats" id="m_stats"></div>
+            <h3>📘 Parcial / Final</h3>
 
-        <h4>🧩 Duplicados Multi</h4>
-        <textarea id="dup_multi" readonly></textarea>
-        <p id="cnt_multi"></p>
+            <div class="section">
+                <h3>📘 Examen Parcial</h3>
 
-      </div>
+                <div class="dropzone" onclick="document.getElementById('pf_parcial').click()"
+                    ondragover="dragOver(event)" ondrop="dropPF(event, 'parcial')">
 
-      <button class="reset" onclick="multiLimpiar()">Limpiar</button>
+                    📥 Arrastra aquí uno o varios archivos TXT del Parcial<br>
+                    o haz clic para seleccionar
+                </div>
+
+                <input type="file" id="pf_parcial" multiple accept=".txt" style="display:none">
+
+                <br>
+                <button onclick="pfProcesar('parcial')">⚙ Procesar Parcial</button>
+                <button onclick="descargarTexto(pf_data.parcial,'EP.txt')">⬇ Descargar Parcial</button>
+
+                <textarea id="pf_out_parcial"></textarea>
+                <div class="stats" id="pf_stats_parcial"></div>
+
+                <h4>🧩 Duplicados Parcial</h4>
+                <textarea id="dup_pf_parcial" readonly></textarea>
+                <p id="cnt_pf_parcial"></p>
+            </div>
+
+
+            <div class="section">
+                <h3>📕 Examen Final</h3>
+
+                <div class="dropzone" onclick="document.getElementById('pf_final').click()" ondragover="dragOver(event)"
+                    ondrop="dropPF(event, 'final')">
+
+                    📥 Arrastra aquí uno o varios archivos TXT del Final<br>
+                    o haz clic para seleccionar
+                </div>
+
+                <input type="file" id="pf_final" multiple accept=".txt" style="display:none">
+
+                <br>
+                <button onclick="pfProcesar('final')">⚙ Procesar Final</button>
+                <button onclick="descargarTexto(pf_data.final,'EF.txt')">⬇ Descargar Final</button>
+
+                <textarea id="pf_out_final"></textarea>
+                <div class="stats" id="pf_stats_final"></div>
+
+                <h4>🧩 Duplicados Final</h4>
+                <textarea id="dup_pf_final" readonly></textarea>
+                <p id="cnt_pf_final"></p>
+            </div>
+
+
+            <div class="section">
+                <button onclick="pfUnir()">🔥 Unir y Depurar</button>
+                <button onclick="descargarTexto(pf_data.union,'RECUPERACIÓN.txt')">⬇ Descargar Unión</button>
+
+                <textarea id="pf_out_union"></textarea>
+                <div class="stats" id="pf_stats_union"></div>
+
+                <h4>🧩 Duplicados Unión</h4>
+                <textarea id="dup_pf_union" readonly></textarea>
+                <p id="cnt_pf_union"></p>
+
+            </div>
+
+            <button class="reset" onclick="pfLimpiar()">🧹 Limpiar</button>
+        </div>
+
+
+        <!-- ================= COMPARADOR ================= -->
+        <div id="comp" class="modulo">
+
+            <h3>🔍 Comparador Aiken</h3>
+
+            <div class="section">
+                <h3>📘 Archivo Principal (Referencia)</h3>
+                <input type="file" id="c_principal">
+                <textarea id="c_txt_principal"></textarea>
+            </div>
+
+            <div class="section">
+                <h3>📄 Archivo a Comparar</h3>
+                <input type="file" id="c_comparar">
+                <textarea id="c_txt_comparar"></textarea>
+            </div>
+
+            <div class="section">
+                <button onclick="comparar()">🔍 Comparar</button>
+                <button onclick="descargarTexto(comp_resultado,'no_encontradas.txt')">⬇ Descargar Resultado</button>
+                <textarea id="c_resultado"></textarea>
+                <div class="stats" id="c_stats"></div>
+            </div>
+
+            <button class="reset" onclick="compLimpiar()">Limpiar</button>
+        </div>
+
+        <!-- ================= MULTI ARCHIVOS ================= -->
+        <div id="multi" class="modulo">
+
+            <h3>📂 Multi-Archivos</h3>
+
+            <div class="section">
+                <h4>📥 Arrastra aquí los archivos TXT</h4>
+                <div id="dropZone" onclick="document.getElementById('m_files').click()" ondragover="dragOver(event)"
+                    ondrop="dropMulti(event)" style="border:2px dashed #004aad; padding:20px; text-align:center;
+            font-weight:bold; border-radius:6px; background:#f4f8ff;">
+                    Arrastra uno o varios archivos .txt aquí<br>
+                    o haz clic para seleccionar
+                </div>
+
+                <input type="file" id="m_files" multiple accept=".txt" style="display:none">
+                <p id="m_info"></p>
+            </div>
+
+            <div class="section">
+                <button onclick="procesarMulti()">⚙ Procesar</button>
+                <button onclick="descargarTexto(m_resultado,'aiken_unificado.txt')">⬇ Descargar Resultado</button>
+                <textarea id="m_out"></textarea>
+                <div class="stats" id="m_stats"></div>
+
+                <h4>🧩 Duplicados Multi</h4>
+                <textarea id="dup_multi" readonly></textarea>
+                <p id="cnt_multi"></p>
+
+            </div>
+
+            <button class="reset" onclick="multiLimpiar()">Limpiar</button>
+        </div>
+
     </div>
 
-  </div>
+    <script>
 
-  <script>
-    /* ===== UTILIDADES COMUNES ===== */
-    function mostrar(id) {
-      document.querySelectorAll('.modulo').forEach(m => m.style.display = 'none');
-      document.getElementById(id).style.display = 'block';
-    }
+        let pfFiles = {
+            parcial: [],
+            final: []
+        };
 
-    function limpiarFormatoAiken(texto) {
-      return texto
-        .replace(/\t+/g, " ")          // TAB → espacio
-        .replace(/([A-Z])\.\s+/g, "$1. ") // A.   → A.
-        .replace(/\s+$/gm, "");        // espacios al final de línea
-    }
+        /* ================= ESTADO GLOBAL ================= */
 
-    function repararOpcionesEnLinea(bloque) {
-      const lineas = bloque.split("\n");
-      const salida = [];
+        let pf_files = { parcial: [], final: [] };
+        let pf_data = { parcial: "", final: "", union: "" };
 
-      lineas.forEach(l => {
-        // Solo dividir si hay varias alternativas reales en una línea
-        if (/(^|\s)(A\.|B\.|C\.|D\.|E\.)\s+.+(\s+(B\.|C\.|D\.|E\.)\s+)/.test(l)) {
-          const partes = l.split(/(?=(?:^|\s)[A-E]\.\s+)/g);
-          partes.forEach(p => salida.push(p.trim()));
-        } else {
-          salida.push(l);
+        let multiFiles = [];
+        let m_resultado = "";
+
+        /* ================= UTILIDADES ================= */
+
+        function normalizarTexto(txt) {
+            return txt
+                .toLowerCase()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .replace(/[^a-z0-9]/g, "")
+                .trim();
         }
-      });
 
-      return salida.join("\n");
-    }
-
-
-    function separarAnswer(bloque) {
-      return bloque.replace(/\s*(ANSWER:\s*[A-Z])/, "\n$1");
-    }
-
-    function normalizar(t) {
-      return t.toLowerCase().normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[¿?¡!.,:;]/g, "")
-        .replace(/\s+/g, "");
-    }
-
-    function limpiarEspaciosLinea(texto) {
-      return texto
-        .replace(/\u00A0/g, " ")
-        .replace(/\t+/g, " ")
-        .replace(/ {2,}/g, " ")
-        .replace(/\s+([.,;:])/g, "$1")
-        .replace(/\n\s+/g, "\n")
-        .replace(/\s+\n/g, "\n")
-        .replace(/^([A-E]\.)\s+/gm, "$1 ")
-        .trim();
-    }
-
-    function procesarTexto(texto) {
-      texto = limpiarEspaciosLinea(texto);
-      const bloques = parsearAikenSeguro(texto);
-
-      const mapa = new Map();
-      const resultado = [];
-      const duplicados = [];
-
-      bloques.forEach(bloque => {
-        const lineas = bloque.split("\n");
-
-        const clave =
-          normalizar(lineas[0]) +
-          lineas
-            .filter(l => /^[A-E]\./.test(l))
-            .map(normalizar)
-            .join("");
-
-        if (!mapa.has(clave)) {
-          mapa.set(clave, bloque);
-          resultado.push(bloque);
-        } else {
-          duplicados.push({
-            original: mapa.get(clave),
-            repetido: bloque
-          });
+        function limpiarEspacios(txt) {
+            return txt
+                .replace(/\s+/g, " ")
+                .replace(/\s+\./g, ".")
+                .replace(/\s+,/g, ",")
+                .trim();
         }
-      });
 
-      return {
-        textoFinal: resultado.join("\n\n"),
-        duplicados,
-        total: resultado.length + duplicados.length,
-        unicos: resultado.length,
-        repetidos: duplicados.length
-      };
-    }
+        /* ================= PARSER AIKEN SEGURO ================= */
 
-    function descargarTexto(txt, nombre) {
-      if (!txt) return alert("No hay contenido");
-      const b = new Blob([txt], { type: "text/plain" });
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(b);
-      a.download = nombre; a.click();
-    }
+        function parsearAikenSeguro(texto) {
+            const lineas = texto
+                .replace(/\t+/g, " ")
+                .split("\n")
+                .map(l => l.trim())
+                .filter(l => l.length > 0);
 
-    function mostrarDuplicados(duplicados, areaId, contadorId) {
-      const area = document.getElementById(areaId);
-      const contador = document.getElementById(contadorId);
+            const bloques = [];
+            let i = 0;
 
-      if (!area || !contador) return;
+            while (i < lineas.length) {
 
-      if (duplicados.length === 0) {
-        area.value = "✅ No se detectaron preguntas duplicadas.";
-        contador.textContent = "";
-        return;
-      }
+                const pregunta = limpiarEspacios(lineas[i]);
+                i++;
 
-      let salida = "";
+                const opciones = [];
+                while (
+                    i < lineas.length &&
+                    /^[A-E]\.\s*/i.test(lineas[i]) &&
+                    opciones.length < 5
+                ) {
+                    opciones.push(limpiarEspacios(lineas[i]));
+                    i++;
+                }
 
-      duplicados.forEach((d, i) => {
-        salida += `🔹 DUPLICADO #${i + 1}\n`;
-        salida += `📌 Conservada:\n${d.original}\n\n`;
-        salida += `❌ Eliminada:\n${d.repetido}\n`;
-        salida += "\n-----------------------------\n\n";
-      });
+                if (opciones.length !== 5) continue;
+                if (i >= lineas.length || !/^ANSWER:\s*[A-E]$/i.test(lineas[i])) continue;
 
-      area.value = salida;
-      contador.textContent =
-        `⚠️ Total de duplicados eliminados: ${duplicados.length}`;
-    }
+                const answer = lineas[i];
+                i++;
 
+                bloques.push([
+                    pregunta,
+                    ...opciones,
+                    answer
+                ].join("\n"));
+            }
 
-    /* ===== PARCIAL FINAL ===== */
-    const pf_data = { parcial: "", final: "", union: "" };
-
-    function pfProcesar(tipo) {
-      const f = document.getElementById("pf_" + tipo).files[0];
-      if (!f) return alert("Seleccione archivo");
-      leer(f, t => {
-        const r = procesarTexto(t);
-        pf_data[tipo] = r.textoFinal;
-        document.getElementById("pf_out_" + tipo).value = r.textoFinal;
-        document.getElementById("pf_stats_" + tipo).innerText =
-          `Originales: ${r.total} | Únicas: ${r.unicos} | Duplicadas: ${r.repetidos}`;
-        mostrarDuplicados(
-          r.duplicados,
-          "dup_pf_" + tipo,
-          "cnt_pf_" + tipo
-        );
-      });
-    }
-
-    function pfUnir() {
-      const r = procesarTexto(pf_data.parcial + "\n\n" + pf_data.final);
-      pf_data.union = r.textoFinal;
-      pf_out_union.value = r.textoFinal;
-      pf_stats_union.innerText =
-        `Originales: ${r.total} | Únicas: ${r.unicos} | Duplicadas: ${r.repetidos}`;
-      mostrarDuplicados(
-        r.duplicados,
-        "dup_pf_union",
-        "cnt_pf_union"
-      );
-    }
-
-    function pfLimpiar() {
-      // limpiar datos
-      pf_data.parcial = "";
-      pf_data.final = "";
-      pf_data.union = "";
-
-      // limpiar inputs file
-      document.getElementById("pf_parcial").value = "";
-      document.getElementById("pf_final").value = "";
-
-      // limpiar textareas
-      document.querySelectorAll("#pf textarea").forEach(t => t.value = "");
-
-      // limpiar contadores
-      document.querySelectorAll("#pf .stats").forEach(s => s.innerText = "");
-
-      // limpiar contadores de duplicados
-      document.getElementById("cnt_pf_parcial").innerText = "";
-      document.getElementById("cnt_pf_final").innerText = "";
-      document.getElementById("cnt_pf_union").innerText = "";
-    }
-
-    /* ===== COMPARADOR ===== */
-    let comp_resultado = "";
-    let comp_principal_txt = "";
-    let comp_comparar_txt = "";
-
-    document.getElementById("c_principal").addEventListener("change", e => {
-      const f = e.target.files[0];
-      if (!f) return;
-      leer(f, t => {
-        comp_principal_txt = t;
-        c_txt_principal.value = t;
-      });
-    });
-
-    document.getElementById("c_comparar").addEventListener("change", e => {
-      const f = e.target.files[0];
-      if (!f) return;
-      leer(f, t => {
-        comp_comparar_txt = t;
-        c_txt_comparar.value = t;
-      });
-    });
-
-    function comparar() {
-      if (!comp_principal_txt || !comp_comparar_txt)
-        return alert("Cargue ambos archivos");
-
-      const ref = new Set();
-
-      parsearAikenSeguro(comp_principal_txt).forEach(b => {
-        const clave = generarClave(b);
-        ref.add(clave);
-      });
-
-      const noEncontradas = [];
-
-      parsearAikenSeguro(comp_comparar_txt).forEach(b => {
-        const clave = generarClave(b);
-        if (!ref.has(clave)) {
-          noEncontradas.push(b);
+            return bloques;
         }
-      });
 
-      comp_resultado = noEncontradas.join("\n\n");
-      c_resultado.value = comp_resultado;
-      c_stats.innerText = `No encontradas: ${noEncontradas.length}`;
-    }
+        /* ================= DUPLICADOS ================= */
 
-    function generarClave(bloque) {
-      const lineas = bloque.split("\n");
-      return normalizar(lineas[0]) +
-        lineas.filter(l => /^[A-E]\./.test(l)).map(normalizar).join("");
-    }
+        function eliminarDuplicados(bloques) {
+            const vistos = new Map();
+            const unicos = [];
+            const duplicados = [];
 
+            for (const bloque of bloques) {
+                const l = bloque.split("\n");
 
-    function compLimpiar() {
-      comp_resultado = "";
-      comp_principal_txt = "";
-      comp_comparar_txt = "";
+                const clave =
+                    normalizarTexto(l[0]) +
+                    l.slice(1, 6).map(normalizarTexto).join("");
 
-      // inputs
-      document.getElementById("c_principal").value = "";
-      document.getElementById("c_comparar").value = "";
+                if (vistos.has(clave)) {
+                    duplicados.push(bloque);
+                } else {
+                    vistos.set(clave, true);
+                    unicos.push(bloque);
+                }
+            }
 
-      // textareas
-      document.querySelectorAll("#comp textarea").forEach(t => t.value = "");
-
-      // contador
-      document.getElementById("c_stats").innerText = "";
-    }
-
-    /* ===== MULTI ===== */
-    let m_resultado = "";
-
-    function genInputs() {
-      const n = m_cantidad.value;
-      m_inputs.innerHTML = "";
-      for (let i = 1; i <= n; i++) {
-        const f = document.createElement("input");
-        f.type = "file"; f.accept = ".txt"; m_inputs.appendChild(f);
-
-      }
-    }
-
-    async function procesarMulti() {
-      if (multiFiles.length === 0)
-        return alert("Arrastra al menos un archivo");
-
-      let txt = "";
-      for (const f of multiFiles) {
-        txt += await leerP(f) + "\n\n";
-      }
-
-      const r = procesarTexto(txt);
-      m_resultado = r.textoFinal;
-      m_out.value = r.textoFinal;
-      m_stats.innerText =
-       m_stats.innerText =
-  `Originales: ${r.total} | Únicas: ${r.unicos} | Duplicadas: ${r.repetidos}`;
-
-
-      mostrarDuplicados(r.duplicados, "dup_multi", "cnt_multi");
-    }
-
-
-    function multiLimpiar() {
-      m_resultado = "";
-      multiFiles = [];
-      m_out.value = "";
-      m_stats.innerText = "";
-      m_info.innerText = "";
-      dup_multi.value = "";
-      cnt_multi.innerText = "";
-      fileInput.value = "";
-    }
-
-
-    function leer(f, cb) {
-      const r = new FileReader();
-      r.onload = e => cb(e.target.result);
-      r.readAsText(f, "UTF-8");
-    }
-
-    function leerP(f) {
-      return new Promise(res => leer(f, res));
-    }
-
-    /* ===== MULTI DRAG & DROP ===== */
-    const dropZone = document.getElementById("dropZone");
-    const fileInput = document.getElementById("m_files");
-    let multiFiles = [];
-
-    dropZone.addEventListener("click", () => fileInput.click());
-
-    fileInput.addEventListener("change", e => {
-      multiFiles = [...e.target.files];
-      actualizarInfoMulti();
-    });
-
-    dropZone.addEventListener("dragover", e => {
-      e.preventDefault();
-      dropZone.style.background = "#e0f0ff";
-    });
-
-    dropZone.addEventListener("dragleave", () => {
-      dropZone.style.background = "#f9f9f9";
-    });
-
-    dropZone.addEventListener("drop", e => {
-      e.preventDefault();
-      dropZone.style.background = "#f9f9f9";
-      multiFiles = [...e.dataTransfer.files].filter(f => f.name.endsWith(".txt"));
-      actualizarInfoMulti();
-    });
-
-    function actualizarInfoMulti() {
-      m_info.innerText =
-        multiFiles.length === 0
-          ? "No hay archivos cargados"
-          : `📂 Archivos cargados: ${multiFiles.length}`;
-    }
-
-    mostrar('pf');
-
-    function parsearAikenSeguro(texto) {
-      const lineas = texto
-        .replace(/\t+/g, " ")
-        .split("\n")
-        .map(l => l.trim())
-        .filter(l => l.length > 0);
-
-      const bloques = [];
-      let i = 0;
-
-      while (i < lineas.length) {
-        // ⛔ NO saltar preguntas aunque el formato sea imperfecto
-        let pregunta = lineas[i];
-        i++;
-        const opciones = [];
-        // Leer hasta 5 alternativas máximo
-        while (i < lineas.length && /^[A-E]\.\s*/.test(lineas[i]) && opciones.length < 5) {
-          opciones.push(lineas[i]);
-          i++;
+            return {
+                total: bloques.length,
+                unicos: unicos.length,
+                repetidos: duplicados.length,
+                textoFinal: unicos.join("\n\n"),
+                duplicados
+            };
         }
-        let answer = "";
-        if (i < lineas.length && /^ANSWER:\s*[A-E]$/i.test(lineas[i])) {
-          answer = lineas[i];
-          i++;
-        }
-        // 🧠 SIEMPRE conservar la pregunta
-        const bloque = [
-          pregunta,
-          ...opciones,
-          answer
-        ].filter(Boolean).join("\n");
-        bloques.push(bloque);
-      }
-      return bloques;
-    }
 
-  </script>
+        function procesarTexto(texto) {
+            return eliminarDuplicados(parsearAikenSeguro(texto));
+        }
+
+        /* ================= ARCHIVOS ================= */
+
+        function leerP(file) {
+            return new Promise((res, rej) => {
+                const r = new FileReader();
+                r.onload = () => res(r.result);
+                r.onerror = rej;
+                r.readAsText(file, "UTF-8");
+            });
+        }
+
+        /* ================= RESULTADOS ================= */
+
+        function mostrarResultado(r, out, stats, dup, cnt) {
+            document.getElementById(out).value = r.textoFinal;
+            document.getElementById(stats).innerText =
+                `Originales: ${r.total} | Únicas: ${r.unicos} | Duplicadas: ${r.repetidos}`;
+            document.getElementById(dup).value = r.duplicados.join("\n\n");
+            document.getElementById(cnt).innerText = `Duplicados: ${r.duplicados.length}`;
+        }
+
+        function mostrarDuplicados(duplicados, areaId, contadorId) {
+            const area = document.getElementById(areaId);
+            const contador = document.getElementById(contadorId);
+
+            if (!area || !contador) return;
+
+            if (!duplicados || duplicados.length === 0) {
+                area.value = "✅ No se detectaron preguntas duplicadas.";
+                contador.innerText = "";
+                return;
+            }
+
+            let salida = "";
+
+            duplicados.forEach((d, i) => {
+                salida += `🔹 DUPLICADO #${i + 1}\n`;
+                salida += `📌 Pregunta conservada:\n${d.original}\n\n`;
+                salida += `❌ Pregunta eliminada:\n${d.repetido}\n`;
+                salida += "\n----------------------------------\n\n";
+            });
+
+            area.value = salida;
+            contador.innerText = `⚠️ Total de duplicados eliminados: ${duplicados.length}`;
+        }
+
+        /* ================= DESCARGA ================= */
+
+        function descargarTexto(txt, nombre) {
+            if (!txt) return alert("No hay contenido");
+            const b = new Blob([txt], { type: "text/plain;charset=utf-8" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(b);
+            a.download = nombre;
+            a.click();
+            URL.revokeObjectURL(a.href);
+        }
+
+        /* ================= DRAG & DROP ================= */
+
+        function dropPF(e, tipo) {
+            e.preventDefault();
+            pf_files[tipo].push(...e.dataTransfer.files);
+        }
+
+        function dropMulti(e) {
+            e.preventDefault();
+            multiFiles.push(...e.dataTransfer.files);
+        }
+
+        function dragOver(e) {
+            e.preventDefault();
+        }
+
+        function dropPF(e, tipo) {
+            e.preventDefault();
+
+            const files = Array.from(e.dataTransfer.files)
+                .filter(f => f.name.toLowerCase().endsWith(".txt"));
+
+            if (files.length === 0) {
+                alert("Solo archivos .txt");
+                return;
+            }
+
+            pfFiles[tipo] = files;
+
+            document.getElementById(`pf_stats_${tipo}`).innerText =
+                `Archivos cargados: ${files.length}`;
+        }
+
+        /* ================= PARCIAL / FINAL ================= */
+
+        async function pfProcesar(tipo) {
+            const files = pfFiles[tipo];
+            if (!files || files.length === 0)
+                return alert("Arrastra al menos un archivo");
+
+            let texto = "";
+            for (const f of files) {
+                texto += await leerP(f) + "\n\n";
+            }
+
+            const r = procesarTexto(texto);
+            pf_data[tipo] = r.textoFinal;
+
+            document.getElementById(`pf_out_${tipo}`).value = r.textoFinal;
+            document.getElementById(`pf_stats_${tipo}`).innerText =
+                `Archivos: ${files.length} | Originales: ${r.total} | Únicas: ${r.unicos} | Duplicadas: ${r.repetidos}`;
+
+            mostrarDuplicados(r.duplicados, `dup_pf_${tipo}`, `cnt_pf_${tipo}`);
+        }
+
+
+        function pfLimpiar() {
+            pf_files = { parcial: [], final: [] };
+            pf_data = { parcial: "", final: "", union: "" };
+
+            [
+                "pf_out_parcial", "pf_out_final", "pf_out_union",
+                "pf_stats_parcial", "pf_stats_final", "pf_stats_union",
+                "dup_pf_parcial", "dup_pf_final", "dup_pf_union",
+                "cnt_pf_parcial", "cnt_pf_final", "cnt_pf_union"
+            ].forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                if ("value" in el) el.value = "";
+                else el.innerText = "";
+            });
+        }
+
+        function pfUnir() {
+            if (!pf_data.parcial && !pf_data.final) {
+                alert("No hay contenido para unir");
+                return;
+            }
+
+            const textoUnido = [pf_data.parcial, pf_data.final]
+                .filter(t => t && t.trim().length > 0)
+                .join("\n\n");
+
+            if (!textoUnido.trim()) {
+                alert("No hay preguntas válidas");
+                return;
+            }
+
+            const r = procesarTexto(textoUnido);
+
+            pf_data.union = r.textoFinal;
+
+            document.getElementById("pf_out_union").value = r.textoFinal;
+            document.getElementById("pf_stats_union").innerText =
+                `Originales: ${r.total} | Únicas: ${r.unicos} | Duplicadas: ${r.repetidos}`;
+
+            mostrarDuplicados(r.duplicados, "dup_pf_union", "cnt_pf_union");
+        }
+
+        /* ================= MULTI ================= */
+
+        async function procesarMulti() {
+            if (multiFiles.length === 0)
+                return alert("Arrastra al menos un archivo");
+
+            let texto = "";
+            for (const f of multiFiles) {
+                texto += await leerP(f) + "\n\n";
+            }
+
+            const r = procesarTexto(texto);
+            m_resultado = r.textoFinal;
+
+            m_out.value = r.textoFinal;
+            m_stats.innerText =
+                `Archivos: ${multiFiles.length} | Originales: ${r.total} | Únicas: ${r.unicos} | Duplicadas: ${r.repetidos}`;
+
+            mostrarDuplicados(r.duplicados, "dup_multi", "cnt_multi");
+        }
+
+
+        function dropMulti(e) {
+            e.preventDefault();
+
+            const files = Array.from(e.dataTransfer.files)
+                .filter(f => f.name.toLowerCase().endsWith(".txt"));
+
+            if (files.length === 0) {
+                alert("Solo archivos .txt");
+                return;
+            }
+
+            multiFiles = files;
+            m_info.innerText = `Archivos cargados: ${files.length}`;
+        }
+
+        document.getElementById("m_files").addEventListener("change", e => {
+            multiFiles = Array.from(e.target.files);
+            m_info.innerText = `Archivos cargados: ${multiFiles.length}`;
+        });
+
+        function multiLimpiar() {
+            multiFiles = [];
+            m_resultado = "";
+            m_out.value = "";
+            m_stats.innerText = "";
+            m_info.innerText = "";
+            dup_multi.value = "";
+            cnt_multi.innerText = "";
+            document.getElementById("m_files").value = "";
+        }
+
+
+        function mostrar(id) {
+            document.querySelectorAll(".modulo").forEach(m => {
+                m.style.display = "none";
+            });
+            const panel = document.getElementById(id);
+            if (panel) panel.style.display = "block";
+        }
+        mostrar("pf");
+
+    </script>
+
 
 </body>
 
