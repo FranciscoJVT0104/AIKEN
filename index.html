@@ -417,11 +417,6 @@
 
         /* ================= DRAG & DROP ================= */
 
-        function dropPF(e, tipo) {
-            e.preventDefault();
-            pf_files[tipo].push(...e.dataTransfer.files);
-        }
-
         function dropMulti(e) {
             e.preventDefault();
             multiFiles.push(...e.dataTransfer.files);
