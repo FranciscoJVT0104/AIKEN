@@ -248,6 +248,12 @@
 
     <script>
 
+        const m_out = document.getElementById("m_out");
+        const m_stats = document.getElementById("m_stats");
+        const m_info = document.getElementById("m_info");
+        const dup_multi = document.getElementById("dup_multi");
+        const cnt_multi = document.getElementById("cnt_multi");
+
         let pfFiles = {
             parcial: [],
             final: []
@@ -392,11 +398,10 @@
 
             let salida = "";
 
-            duplicados.forEach((d, i) => {
+            duplicados.forEach((bloque, i) => {
                 salida += `🔹 DUPLICADO #${i + 1}\n`;
-                salida += `📌 Pregunta conservada:\n${d.original}\n\n`;
-                salida += `❌ Pregunta eliminada:\n${d.repetido}\n`;
-                salida += "\n----------------------------------\n\n";
+                salida += bloque;
+                salida += "\n\n----------------------------------\n\n";
             });
 
             area.value = salida;
@@ -419,15 +424,6 @@
 
         function dropMulti(e) {
             e.preventDefault();
-            multiFiles.push(...e.dataTransfer.files);
-        }
-
-        function dragOver(e) {
-            e.preventDefault();
-        }
-
-        function dropPF(e, tipo) {
-            e.preventDefault();
 
             const files = Array.from(e.dataTransfer.files)
                 .filter(f => f.name.toLowerCase().endsWith(".txt"));
@@ -437,12 +433,9 @@
                 return;
             }
 
-            pfFiles[tipo] = files;
-
-            document.getElementById(`pf_stats_${tipo}`).innerText =
-                `Archivos cargados: ${files.length}`;
+            multiFiles = files;
+            m_info.innerText = `Archivos cargados: ${files.length}`;
         }
-
         /* ================= PARCIAL / FINAL ================= */
 
         async function pfProcesar(tipo) {
@@ -467,7 +460,7 @@
 
 
         function pfLimpiar() {
-            pf_files = { parcial: [], final: [] };
+            pfFiles = { parcial: [], final: [] };
             pf_data = { parcial: "", final: "", union: "" };
 
             [
@@ -509,6 +502,14 @@
             mostrarDuplicados(r.duplicados, "dup_pf_union", "cnt_pf_union");
         }
 
+        document.getElementById("pf_parcial").addEventListener("change", e => {
+            pfFiles.parcial = Array.from(e.target.files);
+        });
+
+        document.getElementById("pf_final").addEventListener("change", e => {
+            pfFiles.final = Array.from(e.target.files);
+        });
+
         /* ================= MULTI ================= */
 
         async function procesarMulti() {
@@ -528,22 +529,6 @@
                 `Archivos: ${multiFiles.length} | Originales: ${r.total} | Únicas: ${r.unicos} | Duplicadas: ${r.repetidos}`;
 
             mostrarDuplicados(r.duplicados, "dup_multi", "cnt_multi");
-        }
-
-
-        function dropMulti(e) {
-            e.preventDefault();
-
-            const files = Array.from(e.dataTransfer.files)
-                .filter(f => f.name.toLowerCase().endsWith(".txt"));
-
-            if (files.length === 0) {
-                alert("Solo archivos .txt");
-                return;
-            }
-
-            multiFiles = files;
-            m_info.innerText = `Archivos cargados: ${files.length}`;
         }
 
         document.getElementById("m_files").addEventListener("change", e => {
