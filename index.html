@@ -421,6 +421,34 @@
         }
 
         /* ================= DRAG & DROP ================= */
+        document.addEventListener("dragover", e => {
+            e.preventDefault();
+        });
+
+        document.addEventListener("drop", e => {
+            e.preventDefault();
+        });
+
+        function dragOver(e) {
+            e.preventDefault();
+        }
+
+        function dropPF(e, tipo) {
+            e.preventDefault();
+
+            const files = Array.from(e.dataTransfer.files)
+                .filter(f => f.name.toLowerCase().endsWith(".txt"));
+
+            if (files.length === 0) {
+                alert("Solo archivos .txt");
+                return;
+            }
+
+            pfFiles[tipo] = files;
+
+            document.getElementById(`pf_stats_${tipo}`).innerText =
+                `Archivos cargados: ${files.length}`;
+        }
 
         function dropMulti(e) {
             e.preventDefault();
@@ -434,8 +462,11 @@
             }
 
             multiFiles = files;
-            m_info.innerText = `Archivos cargados: ${files.length}`;
+
+            document.getElementById("m_info").innerText =
+                `Archivos cargados: ${files.length}`;
         }
+
         /* ================= PARCIAL / FINAL ================= */
 
         async function pfProcesar(tipo) {
@@ -501,14 +532,6 @@
 
             mostrarDuplicados(r.duplicados, "dup_pf_union", "cnt_pf_union");
         }
-
-        document.getElementById("pf_parcial").addEventListener("change", e => {
-            pfFiles.parcial = Array.from(e.target.files);
-        });
-
-        document.getElementById("pf_final").addEventListener("change", e => {
-            pfFiles.final = Array.from(e.target.files);
-        });
 
         /* ================= MULTI ================= */
 
